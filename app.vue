@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-container class="grey lighten-5 container">
-      <v-row class="mb-10" justify="center" no-gutters>
-        <h2 class="title" >{{titulo}} </h2>
+      <v-row class="mb-2" justify="center" no-gutters>
+        <h3 class="title" >{{titulo}} </h3>
         <v-divider></v-divider>
       </v-row>
 
@@ -84,6 +84,7 @@ const checkPair = (id) => {
     
     let c = cards.value.find(e => e.id == id)
     c.flipped = true
+    c.canFlip = false
   }
 
 
@@ -100,10 +101,11 @@ const checkPair = (id) => {
       c2.canFlip = false
 
       //limpar checkFlipPair
+      checkFlipPair.value = []
+      
       setTimeout(() => {
-        checkFlipPair.value = []
         disabledAllFlips.value = false
-      },800)
+      },500)
 
     }else{
       //virar os cards novamente
@@ -111,14 +113,14 @@ const checkPair = (id) => {
         //virar card novamente
         c1.flipped = false
         c2.flipped = false
-        
+
         c1.canFlip = true
         c2.canFlip = true
         
         console.log('cards virados novamente')
         checkFlipPair.value = []
         disabledAllFlips.value = false
-      },1200)
+      },1000)
     }
   }else{
     disabledAllFlips.value = false
@@ -126,20 +128,12 @@ const checkPair = (id) => {
 
 }
 
-const bloquearFlip = (id) => {
-  let c = cards.value.find(e => e.id == id)
-  c.canFlip = false;
-}
-
-const desbloquearFlip = (id) => {
-  let c = cards.value.find(e => e.id == id)
-  c.canFlip = true;
-}
-
 </script>
 
 <style scoped>
-
+.v-container{
+  padding: 5px !important;
+}
 .title{  
   color: #333;
   letter-spacing: 5px;

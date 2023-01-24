@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flip-card mb-5 mr-2" :class="[flipped?'flipped':'']" @click="flip()">
+        <div class="flip-card mb-3 mr-2" :class="[flipped?'flipped':'']" @click="flip()">
           <div class="flip-card-inner">
             <div class="flip-card-back">
               <img src="/img/bg_02.jpg" alt="card">
@@ -33,8 +33,8 @@
 <style scoped>
     .flip-card {
         background-color: transparent;
-        width: 200px;
-        height: 200px;
+        width: 170px;
+        height: 170px;
         perspective: 1000px;
         margin: auto;
     }
