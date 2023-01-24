@@ -1,16 +1,103 @@
 {
     "titulo":"JOGO DA MEMÓRIA",
-    "tabela": false,
     "rows":4,
     "cols":4,
     "cards":[
-        "/img/1.png",
-        "/img/2.png",
-        "/img/3.png",
-        "/img/4.png",
-        "/img/5.png",
-        "/img/6.png",
-        "/img/7.png",
-        "/img/8.png"
+        {
+            "id": 1,
+            "image": "/img/1.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 2,
+            "image": "/img/2.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 3,
+            "image": "/img/3.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 4,
+            "image": "/img/4.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 5,
+            "image": "/img/5.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 6,
+            "image": "/img/6.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 7,
+            "image": "/img/7.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 8,
+            "image": "/img/8.png",
+            "canFlip": true,
+            "flipped":false 
+        },        
+        {
+            "id": 9,
+            "image": "/img/1.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 10,
+            "image": "/img/2.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 11,
+            "image": "/img/3.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 12,
+            "image": "/img/4.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 13,
+            "image": "/img/5.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 14,
+            "image": "/img/6.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 15,
+            "image": "/img/7.png",
+            "canFlip": true,
+            "flipped":false 
+        },
+        {
+            "id": 16,
+            "image": "/img/8.png",
+            "canFlip": true,
+            "flipped":false 
+        }   
     ]
 }

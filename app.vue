@@ -1,48 +1,47 @@
 <template>
   <div>
-    <v-container class="grey lighten-5">
+    <v-container class="grey lighten-5 container">
       <v-row class="mb-10" justify="center" no-gutters>
-        <h2>{{titulo}}</h2>
+        <h2 class="title" >{{titulo}} </h2>
         <v-divider></v-divider>
       </v-row>
 
-      <v-row v-if="tabela" class="mb-3 title" justify="center" no-gutters>
-        <v-col lg="auto">
-          <h3 style="margin: 0 5px">#</h3>
-        </v-col>
-        <v-col v-for="r in rows" :key="r" lg="3" class="text-center">
-          <span>{{alfabeto[r-1]}}</span>
-        </v-col>        
-      </v-row>
-
       <template v-for="r in rows" :key="r">
-        <v-row class="mb-3" justify="center" no-gutters>
-          <v-col v-if="tabela" lg="auto" class="col-number d-flex justify-center flex-column">
-            <h3>{{r}}</h3>
-          </v-col>
+        <v-row justify="center" no-gutters>
           <v-col lg="3" v-for="c in cols" :key="r+c">
-              <flipcard :img="cards[matriz[r-1][c-1]]"
+              <flipcard 
+                :id="cards[matriz[r-1][c-1]].id"
+                :img="cards[matriz[r-1][c-1]].image"
+                :canFlip="cards[matriz[r-1][c-1]].canFlip"
+                :flipped="cards[matriz[r-1][c-1]].flipped"
+                :disabledAll="disabledAllFlips"
+                @flipcard="checkPair"
               ></flipcard>
           </v-col>
         </v-row>        
       </template>
-  
+      <div class="text-center">
+        <v-btn class="mt-5" prepend-icon="mdi mdi-plus" color="info" @click="novojogo">NOVO JOGO</v-btn>
+      </div>
     </v-container>
   </div>
 </template>
 
 <script setup lang="ts">
-const alfabeto = ref([
-  "A","B","C","D","E","F","G","H","I",
-  "J","K","L","M","N","O","P","Q","R",
-  "S","T","U","W","X","Y","Z"
-])
-const tabela = ref(false);
 const titulo = ref(null)
 const rows = ref(null)
 const cols = ref(null)
 const cards = ref([])
 const matriz = ref([]);
+
+//regras do jogo
+const disabledAllFlips = ref(false);
+const checkFlipPair =ref([]);
+
+const novojogo = () => {
+  //utilizar botão ou F5 para reiniciar
+  window.location.reload();
+}
 
 onMounted( async () =>{
   const { data } = await useFetch('/data/cards.json');
@@ -52,9 +51,17 @@ onMounted( async () =>{
     titulo.value = data.value.titulo
     rows.value = data.value.rows
     cols.value = data.value.cols
+
+    //as imagens são adicionadas duas vezes
     cards.value = data.value.cards
-    tabela.value = data.value.tabela
-    
+    //cards.value.push(...data.value.cards)
+
+    //randomize images
+    cards.value = cards.value
+                          .map(value => ({ value, sort: Math.random() }))
+                          .sort((a, b) => a.sort - b.sort)
+                          .map(({ value }) => value)
+    //matriz
     let index = 0;
     for (let i = 0; i < data.value.rows; i++) {
       let arr = [];
@@ -69,19 +76,76 @@ onMounted( async () =>{
   
 })
 
+const checkPair = (id) => {
+  
+  //adicionar card ao array
+  if(checkFlipPair.value.length < 2){
+    checkFlipPair.value.push(id);
+    
+    let c = cards.value.find(e => e.id == id)
+    c.flipped = true
+  }
+
+
+  if(checkFlipPair.value.length == 2){
+    disabledAllFlips.value = true;
+
+    let c1 = cards.value.find(e => e.id == checkFlipPair.value[0])
+    let c2 = cards.value.find(e => e.id == checkFlipPair.value[1])
+
+    //verificar se as imagens são iguais
+    if(c1.image == c2.image){
+      //bloquear o par
+      c1.canFlip = false
+      c2.canFlip = false
+
+      //limpar checkFlipPair
+      setTimeout(() => {
+        checkFlipPair.value = []
+        disabledAllFlips.value = false
+      },800)
+
+    }else{
+      //virar os cards novamente
+      setTimeout(() => {
+        //virar card novamente
+        c1.flipped = false
+        c2.flipped = false
+        
+        c1.canFlip = true
+        c2.canFlip = true
+        
+        console.log('cards virados novamente')
+        checkFlipPair.value = []
+        disabledAllFlips.value = false
+      },1200)
+    }
+  }else{
+    disabledAllFlips.value = false
+  }
+
+}
+
+const bloquearFlip = (id) => {
+  let c = cards.value.find(e => e.id == id)
+  c.canFlip = false;
+}
+
+const desbloquearFlip = (id) => {
+  let c = cards.value.find(e => e.id == id)
+  c.canFlip = true;
+}
+
 </script>
 
 <style scoped>
 
-.title div.v-col {
-  border: solid 2px #eee;
-  background-color: #ccc;
+.title{  
+  color: #333;
+  letter-spacing: 5px;
 }
-.col-number {
-  height: auto;
-  background-color: #ccc;
-}
-.col-number h3 {
-  margin: 0 5px;
+
+.container{
+  max-width: 1000px;
 }
 </style>
